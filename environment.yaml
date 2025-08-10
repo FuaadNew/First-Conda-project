@@ -1,0 +1,13 @@
+name: firstCondaProject
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python=3.10
+  - scikit-learn
+  - numpy
+  - pandas
+  - matplotlib
+  - pip
+  - pip:
+    - requests
