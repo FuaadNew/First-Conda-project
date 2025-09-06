@@ -8,6 +8,8 @@ dependencies:
   - numpy
   - pandas
   - matplotlib
+  - jupyter
+  - notebook
   - pip
   - pip:
     - requests
