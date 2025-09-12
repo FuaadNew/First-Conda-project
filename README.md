@@ -11,12 +11,15 @@ This project contains Jupyter notebooks and datasets designed to help learn fund
 ### Notebooks
 - **`Introduction-to-numpy.ipynb`** - Learn NumPy basics including array creation, manipulation, and operations
 - **`Introduction_to_pandas.ipynb`** - Explore Pandas fundamentals for data analysis and manipulation
+- **`Introduction_to_Matplotlib.ipynb`** - Data visualization with Matplotlib, including plots with NumPy arrays and real-world car sales data
+- **`numpy-exercises.ipynb`** - Practice exercises for NumPy concepts and array operations
 - **`pandas-exercises.ipynb`** - Additional practice exercises with Pandas
 - **`Untitled.ipynb`** - Scratch notebook for experimentation
 
 ### Datasets
 - **`car-sales.csv`** - Complete car sales dataset with make, color, odometer, doors, and price information
 - **`car-sales-missing-data.csv`** - Car sales dataset with intentionally missing values for practicing data cleaning techniques
+- **`heart-disease.csv`** - Medical dataset for advanced data analysis and machine learning practice
 
 ### Assets
 - **`leetcode200.png`** - Reference image
@@ -78,12 +81,21 @@ This project uses Conda for environment management. The environment is defined i
 - Handling missing data
 - Basic data analysis techniques
 
+### Matplotlib
+- Creating basic plots and visualizations
+- Working with figures and axes
+- Plotting with NumPy arrays
+- Customizing plot appearance (titles, labels, sizing)
+- Saving plots as image files
+- Visualizing real-world data from CSV files
+
 ## Getting Started
 
 1. Start with `Introduction-to-numpy.ipynb` to learn array fundamentals
 2. Progress to `Introduction_to_pandas.ipynb` for data manipulation
-3. Practice with `pandas-exercises.ipynb` for reinforcement
-4. Experiment with the car sales datasets to apply your skills
+3. Continue with `Introduction_to_Matplotlib.ipynb` to learn data visualization
+4. Practice with `numpy-exercises.ipynb` and `pandas-exercises.ipynb` for reinforcement
+5. Experiment with the car sales and heart disease datasets to apply your skills
 
 ## Dataset Information
 
@@ -103,6 +115,38 @@ The missing data version is specifically designed for practicing data cleaning t
 - Try to predict outputs before running cells
 - Use the datasets to practice new concepts
 - Don't hesitate to add your own cells for experimentation
+
+## Troubleshooting
+
+### Common Issues with Python/Pandas Version Differences
+
+When following tutorials from 2020-2022, you may encounter some compatibility issues with newer Python and Pandas versions:
+
+#### String Regex Patterns
+**Problem**: `SyntaxWarning: invalid escape sequence` when using regex patterns like `'[\$\,\.]'`
+
+**Solution**: Use raw strings with the `r` prefix:
+```python
+# Instead of: df["Price"].str.replace('[\$\,\.]', '')
+# Use:
+df["Price"] = df["Price"].str.replace(r'[\$\,\.]', '', regex=True)
+```
+
+#### Data Type Conversion
+**Problem**: `TypeError: can only concatenate str (not "float") to str` when performing mathematical operations
+
+**Solution**: Convert strings to numeric after cleaning:
+```python
+# Clean the data first
+df["Price"] = df["Price"].str.replace(r'[\$\,\.]', '', regex=True)
+# Then convert to numeric
+df["Price"] = pd.to_numeric(df["Price"])
+```
+
+#### Function Parameter Changes
+**Problem**: Some pandas functions now require explicit parameters that were optional before
+
+**Solution**: Always specify the `regex=True` parameter when using regex patterns in `str.replace()`
 
 ## Contributing
 
