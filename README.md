@@ -1,17 +1,17 @@
 # First Conda Project
 
-A beginner-friendly data science project focusing on learning NumPy and Pandas through hands-on exercises with car sales data.
+A comprehensive data science learning project covering NumPy, Pandas, and Matplotlib through hands-on exercises with real-world datasets including car sales and medical heart disease data.
 
 ## Project Overview
 
-This project contains Jupyter notebooks and datasets designed to help learn fundamental data science skills using Python's most popular libraries for data manipulation and analysis.
+This project contains Jupyter notebooks and datasets designed to help learn fundamental data science skills using Python's most popular libraries for data manipulation, analysis, and visualization. From basic array operations to advanced medical data analysis, this project provides a complete learning path for aspiring data scientists.
 
 ## Contents
 
 ### Notebooks
 - **`Introduction-to-numpy.ipynb`** - Learn NumPy basics including array creation, manipulation, and operations
 - **`Introduction_to_pandas.ipynb`** - Explore Pandas fundamentals for data analysis and manipulation
-- **`Introduction_to_Matplotlib.ipynb`** - Data visualization with Matplotlib, including plots with NumPy arrays and real-world car sales data
+- **`Introduction_to_Matplotlib.ipynb`** - Comprehensive data visualization with Matplotlib, featuring NumPy arrays, car sales analysis, and advanced medical heart disease visualizations with subplots
 - **`numpy-exercises.ipynb`** - Practice exercises for NumPy concepts and array operations
 - **`pandas-exercises.ipynb`** - Additional practice exercises with Pandas
 - **`Untitled.ipynb`** - Scratch notebook for experimentation
@@ -19,7 +19,7 @@ This project contains Jupyter notebooks and datasets designed to help learn fund
 ### Datasets
 - **`car-sales.csv`** - Complete car sales dataset with make, color, odometer, doors, and price information
 - **`car-sales-missing-data.csv`** - Car sales dataset with intentionally missing values for practicing data cleaning techniques
-- **`heart-disease.csv`** - Medical dataset for advanced data analysis and machine learning practice
+- **`heart-disease.csv`** - Medical dataset containing cardiovascular health indicators (age, cholesterol, heart rate, etc.) for advanced data analysis, visualization, and machine learning practice
 
 ### Assets
 - **`leetcode200.png`** - Reference image
@@ -85,9 +85,12 @@ This project uses Conda for environment management. The environment is defined i
 - Creating basic plots and visualizations
 - Working with figures and axes
 - Plotting with NumPy arrays
-- Customizing plot appearance (titles, labels, sizing)
+- Advanced subplot layouts for multi-panel visualizations
+- Customizing plot appearance (titles, labels, sizing, legends)
+- Adding reference lines and statistical indicators
 - Saving plots as image files
 - Visualizing real-world data from CSV files
+- Medical data visualization and correlation analysis
 
 ## Getting Started
 
