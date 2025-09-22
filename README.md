@@ -14,6 +14,7 @@ This project contains Jupyter notebooks and datasets designed to help learn fund
 - **`Introduction_to_Matplotlib.ipynb`** - Comprehensive data visualization with Matplotlib, featuring NumPy arrays, car sales analysis, and advanced medical heart disease visualizations with subplots
 - **`numpy-exercises.ipynb`** - Practice exercises for NumPy concepts and array operations
 - **`pandas-exercises.ipynb`** - Additional practice exercises with Pandas
+- **`matplotlib-exercises.ipynb`** - Comprehensive Matplotlib exercises covering plotting techniques, customization, styling, and advanced visualization methods including scatter plots, histograms, subplots, and statistical indicators
 - **`Untitled.ipynb`** - Scratch notebook for experimentation
 
 ### Datasets
@@ -21,8 +22,12 @@ This project contains Jupyter notebooks and datasets designed to help learn fund
 - **`car-sales-missing-data.csv`** - Car sales dataset with intentionally missing values for practicing data cleaning techniques
 - **`heart-disease.csv`** - Medical dataset containing cardiovascular health indicators (age, cholesterol, heart rate, etc.) for advanced data analysis, visualization, and machine learning practice
 
-### Assets
+### Generated Assets & Images
+- **`helloworldplot.png`** - Sample plot generated from matplotlib exercises
+- **`test_scatter.png`** - Scatter plot example from matplotlib practice
 - **`leetcode200.png`** - Reference image
+- **`images/`** - Directory containing additional sample plots and reference images
+  - **`sample-plot.png`** - Example visualization output
 
 ## Environment Setup
 
@@ -82,23 +87,40 @@ This project uses Conda for environment management. The environment is defined i
 - Basic data analysis techniques
 
 ### Matplotlib
-- Creating basic plots and visualizations
-- Working with figures and axes
-- Plotting with NumPy arrays
+- Creating basic plots and visualizations (line, scatter, bar, histogram)
+- Working with figures and axes (both pyplot and object-oriented approaches)
+- Plotting with NumPy arrays and Pandas DataFrames
 - Advanced subplot layouts for multi-panel visualizations
-- Customizing plot appearance (titles, labels, sizing, legends)
-- Adding reference lines and statistical indicators
-- Saving plots as image files
+- Customizing plot appearance (titles, labels, sizing, legends, colors)
+- Adding reference lines and statistical indicators (mean lines, trend lines)
+- Plot styling and themes (seaborn integration, custom color schemes)
+- Saving plots as image files in various formats
 - Visualizing real-world data from CSV files
 - Medical data visualization and correlation analysis
+- Interactive plotting techniques and best practices
 
 ## Getting Started
 
-1. Start with `Introduction-to-numpy.ipynb` to learn array fundamentals
-2. Progress to `Introduction_to_pandas.ipynb` for data manipulation
-3. Continue with `Introduction_to_Matplotlib.ipynb` to learn data visualization
-4. Practice with `numpy-exercises.ipynb` and `pandas-exercises.ipynb` for reinforcement
-5. Experiment with the car sales and heart disease datasets to apply your skills
+### Recommended Learning Path
+
+1. **Start with `Introduction-to-numpy.ipynb`** to learn array fundamentals
+2. **Progress to `Introduction_to_pandas.ipynb`** for data manipulation
+3. **Continue with `Introduction_to_Matplotlib.ipynb`** to learn basic data visualization
+4. **Practice with the exercise notebooks:**
+   - `numpy-exercises.ipynb` for NumPy reinforcement
+   - `pandas-exercises.ipynb` for Pandas practice
+   - `matplotlib-exercises.ipynb` for advanced plotting techniques
+5. **Apply your skills** with the car sales and heart disease datasets
+6. **Experiment freely** using `Untitled.ipynb` as your sandbox
+
+### Quick Start
+```bash
+# Clone and setup
+cd firstCondaProject
+conda env create -f environment.yaml
+conda activate firstCondaProject
+jupyter notebook
+```
 
 ## Dataset Information
 
