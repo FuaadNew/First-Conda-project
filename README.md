@@ -12,6 +12,7 @@ This project contains Jupyter notebooks and datasets designed to help learn fund
 - **`Introduction-to-numpy.ipynb`** - Learn NumPy basics including array creation, manipulation, and operations
 - **`Introduction_to_pandas.ipynb`** - Explore Pandas fundamentals for data analysis and manipulation
 - **`Introduction_to_Matplotlib.ipynb`** - Comprehensive data visualization with Matplotlib, featuring NumPy arrays, car sales analysis, and advanced medical heart disease visualizations with subplots
+- **`Introduction to scikitlearn.ipynb`** - Complete machine learning introduction covering classification and regression with RandomForest models, model evaluation, hyperparameter tuning, data preprocessing, and model persistence
 - **`numpy-exercises.ipynb`** - Practice exercises for NumPy concepts and array operations
 - **`pandas-exercises.ipynb`** - Additional practice exercises with Pandas
 - **`matplotlib-exercises.ipynb`** - Comprehensive Matplotlib exercises covering plotting techniques, customization, styling, and advanced visualization methods including scatter plots, histograms, subplots, and statistical indicators
@@ -26,6 +27,7 @@ This project contains Jupyter notebooks and datasets designed to help learn fund
 - **`helloworldplot.png`** - Sample plot generated from matplotlib exercises
 - **`test_scatter.png`** - Scatter plot example from matplotlib practice
 - **`leetcode200.png`** - Reference image
+- **`random_forest_model_1.pkl`** - Trained RandomForest model saved using pickle for model persistence
 - **`images/`** - Directory containing additional sample plots and reference images
   - **`sample-plot.png`** - Example visualization output
 
@@ -99,6 +101,18 @@ This project uses Conda for environment management. The environment is defined i
 - Medical data visualization and correlation analysis
 - Interactive plotting techniques and best practices
 
+### Scikit-learn (Machine Learning)
+- Binary classification with RandomForestClassifier on heart disease data
+- Regression analysis with RandomForestRegressor on car sales data
+- Train-test data splitting and model evaluation
+- Model performance metrics (accuracy, precision, recall, f1-score)
+- Confusion matrix analysis and classification reports
+- Hyperparameter tuning and model optimization
+- Data preprocessing with OneHotEncoder and ColumnTransformer
+- Handling categorical variables in machine learning
+- Model persistence with pickle for saving and loading trained models
+- Cross-validation and model comparison techniques
+
 ## Getting Started
 
 ### Recommended Learning Path
@@ -106,12 +120,13 @@ This project uses Conda for environment management. The environment is defined i
 1. **Start with `Introduction-to-numpy.ipynb`** to learn array fundamentals
 2. **Progress to `Introduction_to_pandas.ipynb`** for data manipulation
 3. **Continue with `Introduction_to_Matplotlib.ipynb`** to learn basic data visualization
-4. **Practice with the exercise notebooks:**
+4. **Advance to `Introduction to scikitlearn.ipynb`** for machine learning fundamentals
+5. **Practice with the exercise notebooks:**
    - `numpy-exercises.ipynb` for NumPy reinforcement
    - `pandas-exercises.ipynb` for Pandas practice
    - `matplotlib-exercises.ipynb` for advanced plotting techniques
-5. **Apply your skills** with the car sales and heart disease datasets
-6. **Experiment freely** using `Untitled.ipynb` as your sandbox
+6. **Apply your skills** with the car sales and heart disease datasets
+7. **Experiment freely** using `Untitled.ipynb` as your sandbox
 
 ### Quick Start
 ```bash
@@ -124,6 +139,7 @@ jupyter notebook
 
 ## Dataset Information
 
+### Car Sales Dataset
 The car sales datasets contain the following columns:
 - **Make**: Car manufacturer (Toyota, Honda, BMW, Nissan)
 - **Colour**: Car color
@@ -132,6 +148,12 @@ The car sales datasets contain the following columns:
 - **Price**: Sale price in USD
 
 The missing data version is specifically designed for practicing data cleaning techniques including handling null values and inconsistent formatting.
+
+### Heart Disease Dataset
+The heart disease dataset contains medical indicators for cardiovascular health prediction:
+- **target**: Binary classification target (0 = no heart disease, 1 = heart disease)
+- Various health metrics including age, cholesterol levels, heart rate, and other cardiovascular indicators
+- Used for binary classification machine learning tasks and medical data analysis
 
 ## Tips for Learning
 
@@ -172,6 +194,16 @@ df["Price"] = pd.to_numeric(df["Price"])
 **Problem**: Some pandas functions now require explicit parameters that were optional before
 
 **Solution**: Always specify the `regex=True` parameter when using regex patterns in `str.replace()`
+
+#### Scikit-learn Class Instantiation
+**Problem**: `AttributeError: 'DataFrame' object has no attribute '_validate_params'` when calling `.fit()`
+
+**Solution**: Make sure to instantiate classifier/regressor classes with parentheses:
+```python
+# Instead of: clf = RandomForestClassifier
+# Use:
+clf = RandomForestClassifier()
+```
 
 ## Contributing
 
