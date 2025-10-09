@@ -21,6 +21,7 @@ This project contains Jupyter notebooks and datasets designed to help learn fund
 ### Datasets
 - **`car-sales.csv`** - Complete car sales dataset with make, color, odometer, doors, and price information
 - **`car-sales-missing-data.csv`** - Car sales dataset with intentionally missing values for practicing data cleaning techniques
+- **`car-sales-extended-missing-data.csv`** - Extended car sales dataset with additional missing data scenarios for advanced data cleaning practice
 - **`heart-disease.csv`** - Medical dataset containing cardiovascular health indicators (age, cholesterol, heart rate, etc.) for advanced data analysis, visualization, and machine learning practice
 
 ### Generated Assets & Images
@@ -147,7 +148,10 @@ The car sales datasets contain the following columns:
 - **Doors**: Number of doors
 - **Price**: Sale price in USD
 
-The missing data version is specifically designed for practicing data cleaning techniques including handling null values and inconsistent formatting.
+Three versions are available:
+- **Complete dataset** (`car-sales.csv`) - Clean data for baseline analysis
+- **Missing data** (`car-sales-missing-data.csv`) - Designed for practicing basic data cleaning techniques including handling null values and inconsistent formatting
+- **Extended missing data** (`car-sales-extended-missing-data.csv`) - Additional missing data scenarios for advanced cleaning practice
 
 ### Heart Disease Dataset
 The heart disease dataset contains medical indicators for cardiovascular health prediction:
