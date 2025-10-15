@@ -12,7 +12,7 @@ This project contains Jupyter notebooks and datasets designed to help learn fund
 - **`Introduction-to-numpy.ipynb`** - Learn NumPy basics including array creation, manipulation, and operations
 - **`Introduction_to_pandas.ipynb`** - Explore Pandas fundamentals for data analysis and manipulation
 - **`Introduction_to_Matplotlib.ipynb`** - Comprehensive data visualization with Matplotlib, featuring NumPy arrays, car sales analysis, and advanced medical heart disease visualizations with subplots
-- **`Introduction to scikitlearn.ipynb`** - Complete machine learning introduction covering classification and regression with RandomForest models, model evaluation, hyperparameter tuning, data preprocessing, and model persistence
+- **`Introduction to scikitlearn.ipynb`** - Complete machine learning introduction covering classification and regression with multiple algorithms (RandomForest, Ridge, LinearSVC), model evaluation metrics, data preprocessing, missing data imputation, model comparison, cross-validation, and model persistence with real-world datasets including heart disease and California housing
 - **`numpy-exercises.ipynb`** - Practice exercises for NumPy concepts and array operations
 - **`pandas-exercises.ipynb`** - Additional practice exercises with Pandas
 - **`matplotlib-exercises.ipynb`** - Comprehensive Matplotlib exercises covering plotting techniques, customization, styling, and advanced visualization methods including scatter plots, histograms, subplots, and statistical indicators
@@ -111,8 +111,12 @@ This project uses Conda for environment management. The environment is defined i
 - Hyperparameter tuning and model optimization
 - Data preprocessing with OneHotEncoder and ColumnTransformer
 - Handling categorical variables in machine learning
+- Missing data imputation with SimpleImputer (constant, mean, and categorical strategies)
+- Advanced model comparison with multiple algorithms (Ridge, LinearSVC, RandomForest)
+- Working with built-in datasets (California Housing dataset)
 - Model persistence with pickle for saving and loading trained models
 - Cross-validation and model comparison techniques
+- Mean absolute error (MAE) for regression evaluation
 
 ## Getting Started
 
