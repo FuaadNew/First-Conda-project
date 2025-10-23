@@ -12,7 +12,7 @@ This project contains Jupyter notebooks and datasets designed to help learn fund
 - **`Introduction-to-numpy.ipynb`** - Learn NumPy basics including array creation, manipulation, and operations
 - **`Introduction_to_pandas.ipynb`** - Explore Pandas fundamentals for data analysis and manipulation
 - **`Introduction_to_Matplotlib.ipynb`** - Comprehensive data visualization with Matplotlib, featuring NumPy arrays, car sales analysis, and advanced medical heart disease visualizations with subplots
-- **`Introduction to scikitlearn.ipynb`** - Complete machine learning introduction covering classification and regression with multiple algorithms (RandomForest, Ridge, LinearSVC), model evaluation metrics, data preprocessing, missing data imputation, model comparison, cross-validation, and model persistence with real-world datasets including heart disease and California housing
+- **`Introduction to scikitlearn.ipynb`** - Complete machine learning introduction covering classification and regression with multiple algorithms (RandomForest, Ridge, LinearSVC), comprehensive model evaluation metrics (accuracy, precision, recall, F1, ROC/AUC, MAE, MSE, R²), confusion matrix visualization with seaborn, ROC curve plotting, data preprocessing, missing data imputation, model comparison, cross-validation techniques, and model persistence with real-world datasets including heart disease and California housing
 - **`numpy-exercises.ipynb`** - Practice exercises for NumPy concepts and array operations
 - **`pandas-exercises.ipynb`** - Additional practice exercises with Pandas
 - **`matplotlib-exercises.ipynb`** - Comprehensive Matplotlib exercises covering plotting techniques, customization, styling, and advanced visualization methods including scatter plots, histograms, subplots, and statistical indicators
@@ -69,6 +69,7 @@ This project uses Conda for environment management. The environment is defined i
   - NumPy - Numerical computing
   - Pandas - Data manipulation and analysis
   - Matplotlib - Data visualization
+  - Seaborn - Statistical data visualization
   - Scikit-learn - Machine learning
 - **Additional:**
   - Requests - HTTP library
@@ -104,19 +105,25 @@ This project uses Conda for environment management. The environment is defined i
 
 ### Scikit-learn (Machine Learning)
 - Binary classification with RandomForestClassifier on heart disease data
-- Regression analysis with RandomForestRegressor on car sales data
+- Regression analysis with RandomForestRegressor on car sales and housing data
 - Train-test data splitting and model evaluation
 - Model performance metrics (accuracy, precision, recall, f1-score)
 - Confusion matrix analysis and classification reports
-- Hyperparameter tuning and model optimization
+- ROC (Receiver Operating Characteristic) curves and AUC scores
+- Confusion matrix visualization with seaborn heatmaps
+- ConfusionMatrixDisplay for modern matrix visualization
+- Hyperparameter tuning and model optimization (n_estimators tuning)
 - Data preprocessing with OneHotEncoder and ColumnTransformer
 - Handling categorical variables in machine learning
 - Missing data imputation with SimpleImputer (constant, mean, and categorical strategies)
 - Advanced model comparison with multiple algorithms (Ridge, LinearSVC, RandomForest)
 - Working with built-in datasets (California Housing dataset)
 - Model persistence with pickle for saving and loading trained models
-- Cross-validation and model comparison techniques
-- Mean absolute error (MAE) for regression evaluation
+- Cross-validation and model comparison techniques (single score vs cross-validation)
+- Regression evaluation metrics (MAE, MSE, R² score)
+- Probability predictions with predict_proba() for classification
+- False Positive Rate (FPR) and True Positive Rate (TPR) analysis
+- Custom ROC curve plotting with matplotlib
 
 ## Getting Started
 
@@ -212,6 +219,20 @@ df["Price"] = pd.to_numeric(df["Price"])
 # Use:
 clf = RandomForestClassifier()
 ```
+
+#### Feature Mismatch Error in train_test_split
+**Problem**: `ValueError: X has N features, but [Model] is expecting M features as input` when calling `.predict()`
+
+**Solution**: Check your `train_test_split()` variable assignment. A common typo is duplicating variable names:
+```python
+# WRONG - y_train appears twice, X_test is missing:
+X_train, y_train, y_train, y_test = train_test_split(X, y, test_size=0.2)
+
+# CORRECT - all four variables properly assigned:
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
+```
+
+This error occurs because `X_test` retains data from a previous cell (different dataset with different number of features), causing a mismatch when predicting with a model trained on the current dataset.
 
 ## Contributing
 
