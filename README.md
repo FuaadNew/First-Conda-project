@@ -12,7 +12,7 @@ This project contains Jupyter notebooks and datasets designed to help learn fund
 - **`Introduction-to-numpy.ipynb`** - Learn NumPy basics including array creation, manipulation, and operations
 - **`Introduction_to_pandas.ipynb`** - Explore Pandas fundamentals for data analysis and manipulation
 - **`Introduction_to_Matplotlib.ipynb`** - Comprehensive data visualization with Matplotlib, featuring NumPy arrays, car sales analysis, and advanced medical heart disease visualizations with subplots
-- **`Introduction to scikitlearn.ipynb`** - Complete machine learning introduction covering classification and regression with multiple algorithms (RandomForest, Ridge, LinearSVC), comprehensive model evaluation metrics (accuracy, precision, recall, F1, ROC/AUC, MAE, MSE, R²), confusion matrix visualization with seaborn, ROC curve plotting, data preprocessing, missing data imputation, model comparison, cross-validation techniques, and model persistence with real-world datasets including heart disease and California housing
+- **`Introduction to scikitlearn.ipynb`** - Complete machine learning introduction covering classification and regression with multiple algorithms (RandomForest, Ridge, LinearSVC), comprehensive model evaluation metrics (accuracy, precision, recall, F1, ROC/AUC, MAE, MSE, R²), confusion matrix visualization with seaborn, ROC curve plotting, data preprocessing, missing data imputation, model comparison, cross-validation techniques, custom evaluation functions, manual train/validation/test splits (70/15/15), hyperparameter tuning with RandomizedSearchCV, model optimization workflows, and model persistence with pickle for real-world datasets including heart disease and California housing
 - **`numpy-exercises.ipynb`** - Practice exercises for NumPy concepts and array operations
 - **`pandas-exercises.ipynb`** - Additional practice exercises with Pandas
 - **`matplotlib-exercises.ipynb`** - Comprehensive Matplotlib exercises covering plotting techniques, customization, styling, and advanced visualization methods including scatter plots, histograms, subplots, and statistical indicators
@@ -29,6 +29,7 @@ This project contains Jupyter notebooks and datasets designed to help learn fund
 - **`test_scatter.png`** - Scatter plot example from matplotlib practice
 - **`leetcode200.png`** - Reference image
 - **`random_forest_model_1.pkl`** - Trained RandomForest model saved using pickle for model persistence
+- **`rs_model.pkl`** - Optimized RandomForest model with hyperparameters tuned via RandomizedSearchCV
 - **`images/`** - Directory containing additional sample plots and reference images
   - **`sample-plot.png`** - Example visualization output
 
@@ -124,6 +125,13 @@ This project uses Conda for environment management. The environment is defined i
 - Probability predictions with predict_proba() for classification
 - False Positive Rate (FPR) and True Positive Rate (TPR) analysis
 - Custom ROC curve plotting with matplotlib
+- Creating custom evaluation functions for multi-metric analysis
+- Manual train/validation/test splitting (70/15/15 split strategy)
+- Hyperparameter optimization with RandomizedSearchCV
+- Grid search for multiple parameters (max_depth, max_features, min_samples_split, min_samples_leaf)
+- Comparing baseline vs optimized model performance
+- Workflow for model improvement and optimization
+- Saving and loading optimized models for production use
 
 ## Getting Started
 
@@ -233,6 +241,51 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
 ```
 
 This error occurs because `X_test` retains data from a previous cell (different dataset with different number of features), causing a mismatch when predicting with a model trained on the current dataset.
+
+#### Classifier vs Regressor Mix-up
+**Problem**: `ValueError: Unknown label type: continuous` when using RandomForestClassifier
+
+**Solution**: Use the correct model type for your target variable:
+```python
+# For continuous target values (prices, temperatures, etc.) - use Regressor
+model = RandomForestRegressor()
+
+# For discrete classes (0/1, categories) - use Classifier
+clf = RandomForestClassifier()
+```
+
+#### Missing Function Parameters in RandomizedSearchCV
+**Problem**: `TypeError: RandomizedSearchCV.__init__() missing 2 required positional arguments: 'estimator' and 'param_distributions'`
+
+**Solution**: Pass a base estimator (the model) to RandomizedSearchCV, not another RandomizedSearchCV instance:
+```python
+# WRONG - trying to use RandomizedSearchCV as an estimator:
+clf = RandomizedSearchCV(n_jobs=1)
+rs_clf = RandomizedSearchCV(estimator=clf, ...)
+
+# CORRECT - use the actual model as the estimator:
+clf = RandomForestClassifier(n_jobs=1)
+rs_clf = RandomizedSearchCV(estimator=clf, param_distributions=grid, ...)
+```
+
+#### UnboundLocalError in Custom Functions
+**Problem**: `UnboundLocalError: cannot access local variable 'accuracy' where it is not associated with a value`
+
+**Solution**: Use the correct function name from sklearn.metrics:
+```python
+# WRONG - 'accuracy' is not a function:
+def evaluate_preds(y_true, y_preds):
+    accuracy = accuracy(y_true, y_preds)  # Error!
+
+# CORRECT - use 'accuracy_score':
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
+
+def evaluate_preds(y_true, y_preds):
+    accuracy = accuracy_score(y_true, y_preds)  # Correct!
+    precision = precision_score(y_true, y_preds)
+    recall = recall_score(y_true, y_preds)
+    f1 = f1_score(y_true, y_preds)
+```
 
 ## Contributing
 
