@@ -12,7 +12,7 @@ This project contains Jupyter notebooks and datasets designed to help learn fund
 - **`Introduction-to-numpy.ipynb`** - Learn NumPy basics including array creation, manipulation, and operations
 - **`Introduction_to_pandas.ipynb`** - Explore Pandas fundamentals for data analysis and manipulation
 - **`Introduction_to_Matplotlib.ipynb`** - Comprehensive data visualization with Matplotlib, featuring NumPy arrays, car sales analysis, and advanced medical heart disease visualizations with subplots
-- **`Introduction to scikitlearn.ipynb`** - Complete machine learning introduction covering classification and regression with multiple algorithms (RandomForest, Ridge, LinearSVC), comprehensive model evaluation metrics (accuracy, precision, recall, F1, ROC/AUC, MAE, MSE, R²), confusion matrix visualization with seaborn, ROC curve plotting, data preprocessing, missing data imputation, model comparison, cross-validation techniques, custom evaluation functions, manual train/validation/test splits (70/15/15), hyperparameter tuning with RandomizedSearchCV, model optimization workflows, and model persistence with pickle for real-world datasets including heart disease and California housing
+- **`Introduction to scikitlearn.ipynb`** - Complete machine learning introduction covering classification and regression with multiple algorithms (RandomForest, Ridge, LinearSVC), comprehensive model evaluation metrics (accuracy, precision, recall, F1, ROC/AUC, MAE, MSE, R²), confusion matrix visualization with seaborn, ROC curve plotting, data preprocessing, missing data imputation, model comparison, cross-validation techniques, custom evaluation functions, manual train/validation/test splits (70/15/15), hyperparameter tuning with RandomizedSearchCV, model optimization workflows, scikit-learn Pipelines for end-to-end ML workflows combining preprocessing and modeling, and model persistence with pickle and joblib for real-world datasets including heart disease and California housing
 - **`numpy-exercises.ipynb`** - Practice exercises for NumPy concepts and array operations
 - **`pandas-exercises.ipynb`** - Additional practice exercises with Pandas
 - **`matplotlib-exercises.ipynb`** - Comprehensive Matplotlib exercises covering plotting techniques, customization, styling, and advanced visualization methods including scatter plots, histograms, subplots, and statistical indicators
@@ -131,7 +131,11 @@ This project uses Conda for environment management. The environment is defined i
 - Grid search for multiple parameters (max_depth, max_features, min_samples_split, min_samples_leaf)
 - Comparing baseline vs optimized model performance
 - Workflow for model improvement and optimization
-- Saving and loading optimized models for production use
+- Building scikit-learn Pipelines for reproducible ML workflows
+- Creating separate Pipeline transformers for different feature types (categorical, numeric, custom)
+- Combining preprocessing steps with ColumnTransformer
+- End-to-end Pipeline combining data preprocessing and model training
+- Saving and loading optimized models for production use (pickle and joblib)
 
 ## Getting Started
 
@@ -285,6 +289,28 @@ def evaluate_preds(y_true, y_preds):
     precision = precision_score(y_true, y_preds)
     recall = recall_score(y_true, y_preds)
     f1 = f1_score(y_true, y_preds)
+```
+
+#### Pipeline Feature Duplication Error
+**Problem**: `TypeError: Encoders require their input argument must be uniformly strings or numbers. Got ['float', 'str']`
+
+**Solution**: Don't list the same feature in multiple transformers within a ColumnTransformer:
+```python
+# WRONG - "Doors" is in both categorical_features and door_feature:
+categorical_features = ["Make", "Colour", "Doors"]
+door_feature = ["Doors"]
+
+# CORRECT - each feature should only be in one transformer:
+categorical_features = ["Make", "Colour"]  # Removed "Doors"
+door_feature = ["Doors"]  # Doors has its own transformer
+
+preprocessor = ColumnTransformer(
+    transformers=[
+        ("cat", categorical_transformer, categorical_features),
+        ("door", door_transformer, door_feature),
+        ("num", numeric_transformer, numeric_features)
+    ]
+)
 ```
 
 ## Contributing
