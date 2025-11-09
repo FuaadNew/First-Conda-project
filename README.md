@@ -16,6 +16,7 @@ This project contains Jupyter notebooks and datasets designed to help learn fund
 - **`numpy-exercises.ipynb`** - Practice exercises for NumPy concepts and array operations
 - **`pandas-exercises.ipynb`** - Additional practice exercises with Pandas
 - **`matplotlib-exercises.ipynb`** - Comprehensive Matplotlib exercises covering plotting techniques, customization, styling, and advanced visualization methods including scatter plots, histograms, subplots, and statistical indicators
+- **`scikit-learn-exercises.ipynb`** - Hands-on practice exercises for scikit-learn covering end-to-end classification and regression workflows, model comparison, hyperparameter tuning, evaluation metrics, Pipeline building, and model persistence
 - **`Untitled.ipynb`** - Scratch notebook for experimentation
 
 ### Datasets
@@ -149,6 +150,7 @@ This project uses Conda for environment management. The environment is defined i
    - `numpy-exercises.ipynb` for NumPy reinforcement
    - `pandas-exercises.ipynb` for Pandas practice
    - `matplotlib-exercises.ipynb` for advanced plotting techniques
+   - `scikit-learn-exercises.ipynb` for hands-on machine learning practice
 6. **Apply your skills** with the car sales and heart disease datasets
 7. **Experiment freely** using `Untitled.ipynb` as your sandbox
 
@@ -312,6 +314,36 @@ preprocessor = ColumnTransformer(
     ]
 )
 ```
+
+#### Dictionary Unpacking for Model Parameters
+**Problem**: `InvalidParameterError: The 'penalty' parameter of LogisticRegression must be a str among {...}. Got {'solver': 'liblinear', 'C': ...} instead.`
+
+**Solution**: Use `**` to unpack dictionary parameters when passing best_params_ to a model:
+```python
+# WRONG - passing dictionary as first positional argument:
+clf = LogisticRegression(rs_log_reg.best_params_)
+
+# CORRECT - unpack dictionary with ** operator:
+clf = LogisticRegression(**rs_log_reg.best_params_)
+```
+
+The `**` operator unpacks `{'solver': 'liblinear', 'C': 3792.69}` into individual keyword arguments: `LogisticRegression(solver='liblinear', C=3792.69)`
+
+#### Deprecated plot_roc_curve Function
+**Problem**: `ImportError: cannot import name 'plot_roc_curve' from 'sklearn.metrics'`
+
+**Solution**: Use `RocCurveDisplay` instead (scikit-learn 1.2+ removed `plot_roc_curve`):
+```python
+# OLD (deprecated in scikit-learn 1.2+):
+from sklearn.metrics import plot_roc_curve
+plot_roc_curve(model, X_test, y_test)
+
+# NEW (current API):
+from sklearn.metrics import RocCurveDisplay
+RocCurveDisplay.from_estimator(model, X_test, y_test)
+```
+
+Similarly, for confusion matrices, use `ConfusionMatrixDisplay.from_estimator()` instead of the deprecated `plot_confusion_matrix()`.
 
 ## Contributing
 
