@@ -6,6 +6,22 @@ A comprehensive data science learning project covering NumPy, Pandas, and Matplo
 
 This project contains Jupyter notebooks and datasets designed to help learn fundamental data science skills using Python's most popular libraries for data manipulation, analysis, and visualization. From basic array operations to advanced medical data analysis, this project provides a complete learning path for aspiring data scientists.
 
+## Progress Tracker
+
+### Completed ✅
+- ✅ **scikit-learn-exercises.ipynb** - Successfully completed all practice exercises including classification, regression, Pipelines, hyperparameter tuning, and model evaluation
+
+### In Progress 🚧
+- Tutorial notebooks and additional exercises
+
+### Skills Acquired
+- Building end-to-end ML Pipelines with scikit-learn
+- Hyperparameter tuning with RandomizedSearchCV
+- Model evaluation with multiple metrics (accuracy, precision, recall, F1, ROC/AUC)
+- Handling mixed data types with ColumnTransformer
+- Data preprocessing (imputation, encoding, feature transformation)
+- Model persistence and deployment readiness
+
 ## What You'll Learn
 
 By working through this project, you'll gain hands-on experience with:
@@ -51,14 +67,20 @@ By working through this project, you'll gain hands-on experience with:
 ## Contents
 
 ### Notebooks
+
+#### Tutorial Notebooks
 - **`Introduction-to-numpy.ipynb`** - Learn NumPy basics including array creation, manipulation, and operations
 - **`Introduction_to_pandas.ipynb`** - Explore Pandas fundamentals for data analysis and manipulation
 - **`Introduction_to_Matplotlib.ipynb`** - Comprehensive data visualization with Matplotlib, featuring NumPy arrays, car sales analysis, and advanced medical heart disease visualizations with subplots
 - **`Introduction to scikitlearn.ipynb`** - Complete machine learning introduction covering classification and regression with multiple algorithms (RandomForest, Ridge, LinearSVC), comprehensive model evaluation metrics (accuracy, precision, recall, F1, ROC/AUC, MAE, MSE, R²), confusion matrix visualization with seaborn, ROC curve plotting, data preprocessing, missing data imputation, model comparison, cross-validation techniques, custom evaluation functions, manual train/validation/test splits (70/15/15), hyperparameter tuning with RandomizedSearchCV, model optimization workflows, scikit-learn Pipelines for end-to-end ML workflows combining preprocessing and modeling, and model persistence with pickle and joblib for real-world datasets including heart disease and California housing
+
+#### Practice Exercise Notebooks
 - **`numpy-exercises.ipynb`** - Practice exercises for NumPy concepts and array operations
 - **`pandas-exercises.ipynb`** - Additional practice exercises with Pandas
 - **`matplotlib-exercises.ipynb`** - Comprehensive Matplotlib exercises covering plotting techniques, customization, styling, and advanced visualization methods including scatter plots, histograms, subplots, and statistical indicators
-- **`scikit-learn-exercises.ipynb`** - Hands-on practice exercises for scikit-learn covering end-to-end classification and regression workflows, model comparison, hyperparameter tuning, evaluation metrics, Pipeline building, and model persistence
+- **`scikit-learn-exercises.ipynb`** ✅ **[COMPLETED]** - Hands-on practice exercises for scikit-learn covering end-to-end classification and regression workflows, model comparison, hyperparameter tuning with RandomizedSearchCV, evaluation metrics (confusion matrices, ROC curves, cross-validation), Pipeline building with ColumnTransformer for mixed data types, handling missing data with SimpleImputer, categorical encoding with OneHotEncoder, regression with multiple algorithms (Ridge, SVR, RandomForestRegressor), and model persistence with joblib
+
+#### Experimentation
 - **`Untitled.ipynb`** - Scratch notebook for experimentation
 
 ### Datasets
@@ -192,7 +214,7 @@ This project uses Conda for environment management. The environment is defined i
    - `numpy-exercises.ipynb` for NumPy reinforcement
    - `pandas-exercises.ipynb` for Pandas practice
    - `matplotlib-exercises.ipynb` for advanced plotting techniques
-   - `scikit-learn-exercises.ipynb` for hands-on machine learning practice
+   - ~~`scikit-learn-exercises.ipynb`~~ ✅ **COMPLETED** - Hands-on machine learning practice
 6. **Apply your skills** with the car sales and heart disease datasets
 7. **Experiment freely** using `Untitled.ipynb` as your sandbox
 
