@@ -386,3 +386,265 @@ score = full_pipeline.score(X_test, y_test)
 
 ---
 
+## Hyperparameter Tuning & Model Persistence
+
+### Hyperparameter Tuning
+
+#### RandomizedSearchCV()
+**Purpose:** Randomly search through hyperparameter space to find best model
+
+**Import:**
+```python
+from sklearn.model_selection import RandomizedSearchCV
+```
+
+**Basic Usage:**
+```python
+from sklearn.ensemble import RandomForestClassifier
+import numpy as np
+
+# Define hyperparameter grid
+param_grid = {
+    'n_estimators': [10, 100, 200, 500, 1000],
+    'max_depth': [None, 5, 10, 20, 30],
+    'max_features': ['sqrt', 'log2'],
+    'min_samples_split': [2, 4, 6],
+    'min_samples_leaf': [1, 2, 4]
+}
+
+# Create base model
+clf = RandomForestClassifier(random_state=42)
+
+# Create RandomizedSearchCV
+rs_clf = RandomizedSearchCV(
+    estimator=clf,
+    param_distributions=param_grid,
+    n_iter=10,
+    cv=5,
+    verbose=2,
+    random_state=42,
+    n_jobs=-1
+)
+
+# Fit
+rs_clf.fit(X_train, y_train)
+
+# Get best parameters and score
+print(rs_clf.best_params_)
+print(rs_clf.best_score_)
+```
+
+**Key Parameters:**
+- `estimator`: The model to tune
+- `param_distributions`: Dictionary of hyperparameters to search
+- `n_iter`: Number of random combinations to try
+- `cv`: Number of cross-validation folds
+- `scoring`: Metric to optimize (default='accuracy')
+- `n_jobs`: Number of parallel jobs (-1 = use all cores)
+
+**Using Best Parameters:**
+```python
+# IMPORTANT: Use ** to unpack the dictionary
+best_model = RandomForestClassifier(**rs_clf.best_params_)
+best_model.fit(X_train, y_train)
+```
+
+#### GridSearchCV()
+**Purpose:** Exhaustively search through all hyperparameter combinations
+
+**Import:**
+```python
+from sklearn.model_selection import GridSearchCV
+```
+
+**Basic Usage:**
+```python
+param_grid = {
+    'C': [0.1, 1, 10],
+    'solver': ['liblinear', 'lbfgs']
+}
+
+grid_search = GridSearchCV(
+    estimator=LogisticRegression(),
+    param_grid=param_grid,
+    cv=5,
+    scoring='accuracy'
+)
+
+grid_search.fit(X_train, y_train)
+print(grid_search.best_params_)
+```
+
+**Difference from RandomizedSearchCV:**
+- GridSearchCV: Tests ALL combinations (exhaustive, slower)
+- RandomizedSearchCV: Tests RANDOM subset (faster, good for large grids)
+
+### Model Persistence
+
+#### joblib.dump() & joblib.load()
+**Purpose:** Save and load trained models to disk
+
+**Import:**
+```python
+import joblib
+```
+
+**Saving a Model:**
+```python
+# Train your model
+model = RandomForestClassifier()
+model.fit(X_train, y_train)
+
+# Save to disk
+joblib.dump(model, 'my_model.pkl')
+```
+
+**Loading a Model:**
+```python
+# Load from disk
+loaded_model = joblib.load('my_model.pkl')
+
+# Use it
+predictions = loaded_model.predict(X_test)
+```
+
+**Saving a Pipeline:**
+```python
+# Pipelines can be saved the same way
+pipeline = Pipeline(steps=[
+    ('preprocessor', preprocessor),
+    ('model', RandomForestClassifier())
+])
+
+pipeline.fit(X_train, y_train)
+
+# Save entire pipeline
+joblib.dump(pipeline, 'full_pipeline.pkl')
+
+# Load and use
+loaded_pipeline = joblib.load('full_pipeline.pkl')
+predictions = loaded_pipeline.predict(X_test)
+```
+
+**Best Practices:**
+- Use `.pkl` file extension for model files
+- `joblib` is preferred over `pickle` for large numpy arrays
+- Save the entire pipeline (including preprocessing) for consistency
+- Keep track of scikit-learn version used for training
+
+#### Alternative: pickle
+**Import:**
+```python
+import pickle
+```
+
+**Basic Usage:**
+```python
+# Save
+with open('model.pkl', 'wb') as f:
+    pickle.dump(model, f)
+
+# Load
+with open('model.pkl', 'rb') as f:
+    loaded_model = pickle.load(f)
+```
+
+**Note:** `joblib` is generally faster for scikit-learn models with large numpy arrays.
+
+---
+
+## Common Pitfalls & Pro Tips
+
+### 1. Dictionary Unpacking for Best Parameters
+```python
+# WRONG - passes dict as single argument
+model = LogisticRegression(rs.best_params_)
+
+# CORRECT - unpacks dict as keyword arguments
+model = LogisticRegression(**rs.best_params_)
+```
+
+### 2. Classifier vs Regressor
+```python
+# For continuous targets (prices, temperatures, etc.)
+model = RandomForestRegressor()
+
+# For discrete classes (yes/no, categories, etc.)
+model = RandomForestClassifier()
+```
+
+### 3. Pipeline Step Format
+```python
+# WRONG - not a tuple
+steps = ["preprocessor", model]
+
+# CORRECT - list of tuples
+steps = [("preprocessor", preprocessor), ("model", model)]
+```
+
+### 4. Cross-validation Scoring Parameter
+```python
+# WRONG
+cross_val_score(model, X, y, scoring='f1_score')
+
+# CORRECT
+cross_val_score(model, X, y, scoring='f1')
+```
+
+### 5. ROC Curve (Updated API)
+```python
+# OLD (deprecated)
+from sklearn.metrics import plot_roc_curve
+plot_roc_curve(model, X_test, y_test)
+
+# NEW (scikit-learn 1.2+)
+from sklearn.metrics import RocCurveDisplay
+RocCurveDisplay.from_estimator(model, X_test, y_test)
+```
+
+---
+
+## Quick Workflow Template
+
+```python
+# 1. Import libraries
+from sklearn.model_selection import train_test_split, RandomizedSearchCV
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score, classification_report
+import joblib
+
+# 2. Load and split data
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# 3. Define model and hyperparameters
+param_grid = {
+    'n_estimators': [100, 200, 500],
+    'max_depth': [None, 10, 20]
+}
+
+# 4. Tune hyperparameters
+rs = RandomizedSearchCV(
+    RandomForestClassifier(random_state=42),
+    param_grid,
+    n_iter=5,
+    cv=5
+)
+rs.fit(X_train, y_train)
+
+# 5. Train final model
+final_model = RandomForestClassifier(**rs.best_params_)
+final_model.fit(X_train, y_train)
+
+# 6. Evaluate
+y_pred = final_model.predict(X_test)
+print(classification_report(y_test, y_pred))
+
+# 7. Save model
+joblib.dump(final_model, 'final_model.pkl')
+```
+
+---
+
+**Created:** November 2025  
+**For:** firstCondaProject scikit-learn learning path
+
