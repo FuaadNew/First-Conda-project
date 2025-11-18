@@ -119,6 +119,173 @@ model = Ridge(alpha=1.0)
 model.fit(X_train, y_train)
 ```
 
+### Advanced Models
+
+#### Support Vector Machines (SVC & SVR)
+**Purpose:** Powerful classification and regression using kernel trick
+
+**Classification (SVC):**
+```python
+from sklearn.svm import SVC
+
+# Linear kernel
+svc_linear = SVC(kernel='linear', C=1.0)
+svc_linear.fit(X_train, y_train)
+
+# RBF (Radial Basis Function) kernel - most common
+svc_rbf = SVC(kernel='rbf', C=1.0, gamma='scale')
+svc_rbf.fit(X_train, y_train)
+
+# Polynomial kernel
+svc_poly = SVC(kernel='poly', degree=3, C=1.0)
+svc_poly.fit(X_train, y_train)
+```
+
+**Regression (SVR):**
+```python
+from sklearn.svm import SVR
+
+svr = SVR(kernel='rbf', C=1.0, epsilon=0.1)
+svr.fit(X_train, y_train)
+```
+
+**Key Parameters:**
+- `C`: Regularization parameter (smaller = more regularization)
+- `kernel`: Type of kernel ('linear', 'rbf', 'poly', 'sigmoid')
+- `gamma`: Kernel coefficient ('scale', 'auto', or float)
+- `epsilon`: (SVR only) Size of epsilon-tube for regression
+
+**When to Use:**
+- High-dimensional data
+- Clear margin of separation
+- Non-linear relationships (with RBF/poly kernels)
+- **IMPORTANT**: Always scale features before using SVM!
+
+**Example with Scaling:**
+```python
+from sklearn.preprocessing import StandardScaler
+from sklearn.svm import SVC
+from sklearn.pipeline import Pipeline
+
+pipeline = Pipeline([
+    ('scaler', StandardScaler()),
+    ('svm', SVC(kernel='rbf', C=1.0))
+])
+
+pipeline.fit(X_train, y_train)
+```
+
+#### Gradient Boosting Models
+**Purpose:** Build ensemble by sequentially correcting previous model errors
+
+**GradientBoostingClassifier:**
+```python
+from sklearn.ensemble import GradientBoostingClassifier
+
+gbc = GradientBoostingClassifier(
+    n_estimators=100,
+    learning_rate=0.1,
+    max_depth=3,
+    random_state=42
+)
+gbc.fit(X_train, y_train)
+```
+
+**GradientBoostingRegressor:**
+```python
+from sklearn.ensemble import GradientBoostingRegressor
+
+gbr = GradientBoostingRegressor(
+    n_estimators=100,
+    learning_rate=0.1,
+    max_depth=3,
+    random_state=42
+)
+gbr.fit(X_train, y_train)
+```
+
+**Key Parameters:**
+- `n_estimators`: Number of boosting stages (100-500 typical)
+- `learning_rate`: Shrinks contribution of each tree (0.01-0.1 typical)
+- `max_depth`: Maximum tree depth (3-5 recommended)
+- `subsample`: Fraction of samples for training each tree (0.8 typical)
+
+**Pros:**
+- Often highest accuracy
+- Handles mixed data types well
+- Robust to outliers
+
+**Cons:**
+- Slower to train
+- Can overfit if not tuned properly
+- Sequential (can't parallelize training)
+
+**XGBoost Alternative (if installed):**
+```python
+# Install: pip install xgboost
+from xgboost import XGBClassifier, XGBRegressor
+
+xgb = XGBClassifier(
+    n_estimators=100,
+    learning_rate=0.1,
+    max_depth=3,
+    random_state=42
+)
+xgb.fit(X_train, y_train)
+```
+
+#### K-Nearest Neighbors (KNN)
+**Purpose:** Classify/predict based on K closest training examples
+
+**Classification:**
+```python
+from sklearn.neighbors import KNeighborsClassifier
+
+knn = KNeighborsClassifier(n_neighbors=5, weights='uniform')
+knn.fit(X_train, y_train)
+```
+
+**Regression:**
+```python
+from sklearn.neighbors import KNeighborsRegressor
+
+knn_reg = KNeighborsRegressor(n_neighbors=5, weights='distance')
+knn_reg.fit(X_train, y_train)
+```
+
+**Key Parameters:**
+- `n_neighbors`: Number of neighbors (typically 3-10)
+- `weights`: 'uniform' (all equal) or 'distance' (closer = more weight)
+- `metric`: Distance metric ('euclidean', 'manhattan', 'minkowski')
+
+**Finding Optimal K:**
+```python
+from sklearn.model_selection import cross_val_score
+import numpy as np
+
+k_range = range(1, 31)
+scores = []
+
+for k in k_range:
+    knn = KNeighborsClassifier(n_neighbors=k)
+    score = cross_val_score(knn, X, y, cv=5, scoring='accuracy').mean()
+    scores.append(score)
+
+optimal_k = k_range[np.argmax(scores)]
+print(f"Optimal K: {optimal_k}")
+```
+
+**Pros:**
+- Simple, intuitive
+- No training phase (lazy learning)
+- Works well for low-dimensional data
+
+**Cons:**
+- Slow predictions (must search all training data)
+- Sensitive to feature scaling
+- Curse of dimensionality (poor for high-dimensional data)
+- **IMPORTANT**: Always scale features!
+
 ### Evaluation Metrics
 
 #### Classification Metrics
