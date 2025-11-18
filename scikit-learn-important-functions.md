@@ -215,3 +215,174 @@ mean_score = scores.mean()
 
 ---
 
+## Preprocessing & Pipelines
+
+### Data Preprocessing
+
+#### SimpleImputer()
+**Purpose:** Fill in missing values in datasets
+
+**Import:**
+```python
+from sklearn.impute import SimpleImputer
+```
+
+**Basic Usage:**
+```python
+# For numerical features - fill with median
+imputer = SimpleImputer(strategy='median')
+X_imputed = imputer.fit_transform(X)
+```
+
+**Key Parameters & Strategies:**
+- `strategy='mean'`: Fill with column mean
+- `strategy='median'`: Fill with column median (robust to outliers)
+- `strategy='most_frequent'`: Fill with most common value
+- `strategy='constant'`, `fill_value='missing'`: Fill with custom value
+
+**Example for categorical data:**
+```python
+cat_imputer = SimpleImputer(strategy='constant', fill_value='missing')
+```
+
+#### OneHotEncoder()
+**Purpose:** Convert categorical variables to binary columns
+
+**Import:**
+```python
+from sklearn.preprocessing import OneHotEncoder
+```
+
+**Basic Usage:**
+```python
+encoder = OneHotEncoder(handle_unknown='ignore')
+X_encoded = encoder.fit_transform(X_categorical)
+```
+
+**Key Parameters:**
+- `handle_unknown='ignore'`: Ignore unknown categories during transform
+- `sparse_output=False`: Return dense array instead of sparse matrix
+
+**Example:**
+```python
+# If you have categories: ['red', 'blue', 'green']
+# OneHotEncoder creates: [1,0,0], [0,1,0], [0,0,1]
+```
+
+### Pipelines
+
+#### Pipeline()
+**Purpose:** Chain multiple preprocessing steps and model together
+
+**Import:**
+```python
+from sklearn.pipeline import Pipeline
+```
+
+**Basic Usage:**
+```python
+pipeline = Pipeline(steps=[
+    ('imputer', SimpleImputer(strategy='median')),
+    ('model', RandomForestClassifier())
+])
+
+pipeline.fit(X_train, y_train)
+predictions = pipeline.predict(X_test)
+```
+
+**Key Benefits:**
+- Prevents data leakage (fit only on training data)
+- Simplifies workflow (one object for preprocessing + model)
+- Makes code cleaner and more reproducible
+
+**Step Format:** Each step is a tuple: `('name', transformer_or_model)`
+
+#### ColumnTransformer()
+**Purpose:** Apply different preprocessing to different columns
+
+**Import:**
+```python
+from sklearn.compose import ColumnTransformer
+```
+
+**Basic Usage:**
+```python
+# Define transformers for different column types
+numeric_transformer = Pipeline(steps=[
+    ('imputer', SimpleImputer(strategy='median'))
+])
+
+categorical_transformer = Pipeline(steps=[
+    ('imputer', SimpleImputer(strategy='constant', fill_value='missing')),
+    ('onehot', OneHotEncoder(handle_unknown='ignore'))
+])
+
+# Combine them
+preprocessor = ColumnTransformer(
+    transformers=[
+        ('num', numeric_transformer, numeric_features),
+        ('cat', categorical_transformer, categorical_features)
+    ])
+
+# Use in a full pipeline
+model = Pipeline(steps=[
+    ('preprocessor', preprocessor),
+    ('classifier', RandomForestClassifier())
+])
+
+model.fit(X_train, y_train)
+```
+
+**Transformer Format:** Each transformer is a tuple:
+```python
+('name', transformer, columns)
+```
+
+**Complete Example:**
+```python
+from sklearn.pipeline import Pipeline
+from sklearn.compose import ColumnTransformer
+from sklearn.impute import SimpleImputer
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.ensemble import RandomForestClassifier
+
+# Define feature lists
+numeric_features = ['Age', 'Income', 'CreditScore']
+categorical_features = ['Gender', 'City', 'ProductCategory']
+
+# Numeric pipeline
+numeric_transformer = Pipeline(steps=[
+    ('imputer', SimpleImputer(strategy='median'))
+])
+
+# Categorical pipeline
+categorical_transformer = Pipeline(steps=[
+    ('imputer', SimpleImputer(strategy='constant', fill_value='missing')),
+    ('onehot', OneHotEncoder(handle_unknown='ignore'))
+])
+
+# Column transformer
+preprocessor = ColumnTransformer(
+    transformers=[
+        ('num', numeric_transformer, numeric_features),
+        ('cat', categorical_transformer, categorical_features)
+    ])
+
+# Full pipeline
+full_pipeline = Pipeline(steps=[
+    ('preprocessor', preprocessor),
+    ('model', RandomForestClassifier(n_estimators=100, random_state=42))
+])
+
+# Train
+full_pipeline.fit(X_train, y_train)
+
+# Predict
+predictions = full_pipeline.predict(X_test)
+
+# Score
+score = full_pipeline.score(X_test, y_test)
+```
+
+---
+
