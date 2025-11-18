@@ -219,6 +219,64 @@ mean_score = scores.mean()
 
 ### Data Preprocessing
 
+#### StandardScaler()
+**Purpose:** Standardize features by removing mean and scaling to unit variance
+
+**Import:**
+```python
+from sklearn.preprocessing import StandardScaler
+```
+
+**Basic Usage:**
+```python
+scaler = StandardScaler()
+X_scaled = scaler.fit_transform(X_train)
+X_test_scaled = scaler.transform(X_test)
+```
+
+**Key Points:**
+- Transforms data to have mean=0 and std=1
+- Essential for algorithms sensitive to feature scales (SVM, KNN, Logistic Regression)
+- Formula: z = (x - mean) / std
+- **IMPORTANT:** Fit on training data only, then transform both train and test
+
+**Example:**
+```python
+# Before scaling: [10, 20, 30, 40, 50]
+# After scaling: [-1.41, -0.71, 0, 0.71, 1.41]
+```
+
+#### MinMaxScaler()
+**Purpose:** Scale features to a given range (default 0-1)
+
+**Import:**
+```python
+from sklearn.preprocessing import MinMaxScaler
+```
+
+**Basic Usage:**
+```python
+scaler = MinMaxScaler(feature_range=(0, 1))
+X_scaled = scaler.fit_transform(X_train)
+X_test_scaled = scaler.transform(X_test)
+```
+
+**Key Points:**
+- Scales features to a fixed range (default [0, 1])
+- Formula: X_scaled = (X - X_min) / (X_max - X_min)
+- Useful when you need bounded values
+- More affected by outliers than StandardScaler
+
+**Example with custom range:**
+```python
+scaler = MinMaxScaler(feature_range=(-1, 1))
+X_scaled = scaler.fit_transform(X)
+```
+
+**StandardScaler vs MinMaxScaler:**
+- Use StandardScaler: For most ML algorithms, when data has outliers
+- Use MinMaxScaler: When you need specific range (e.g., neural networks), when data doesn't have outliers
+
 #### SimpleImputer()
 **Purpose:** Fill in missing values in datasets
 
