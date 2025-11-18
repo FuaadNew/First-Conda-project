@@ -6,8 +6,9 @@ A quick reference guide for essential scikit-learn functions used in machine lea
 1. [Data Preparation](#data-preparation)
 2. [Model Training & Evaluation](#model-training--evaluation)
 3. [Preprocessing & Pipelines](#preprocessing--pipelines)
-4. [Clustering Algorithms](#clustering-algorithms)
-5. [Hyperparameter Tuning & Model Persistence](#hyperparameter-tuning--model-persistence)
+4. [Feature Selection](#feature-selection)
+5. [Clustering Algorithms](#clustering-algorithms)
+6. [Hyperparameter Tuning & Model Persistence](#hyperparameter-tuning--model-persistence)
 
 ---
 
@@ -442,6 +443,153 @@ predictions = full_pipeline.predict(X_test)
 # Score
 score = full_pipeline.score(X_test, y_test)
 ```
+
+---
+
+## Feature Selection
+
+### SelectKBest()
+**Purpose:** Select K best features based on statistical tests
+
+**Import:**
+```python
+from sklearn.feature_selection import SelectKBest, f_classif, chi2
+```
+
+**Basic Usage:**
+```python
+# For classification
+selector = SelectKBest(score_func=f_classif, k=10)
+X_new = selector.fit_transform(X, y)
+
+# Get selected feature indices
+selected_indices = selector.get_support(indices=True)
+
+# Get feature scores
+scores = selector.scores_
+```
+
+**Key Parameters:**
+- `score_func`: Function to compute scores (f_classif, chi2, f_regression, mutual_info_classif)
+- `k`: Number of top features to select (or 'all')
+
+**Score Functions:**
+```python
+# For classification
+from sklearn.feature_selection import f_classif, chi2, mutual_info_classif
+
+# For regression
+from sklearn.feature_selection import f_regression, mutual_info_regression
+
+# Chi-squared (for non-negative features only)
+selector = SelectKBest(score_func=chi2, k=5)
+```
+
+**Example: Identifying Most Important Features**
+```python
+import pandas as pd
+from sklearn.feature_selection import SelectKBest, f_classif
+
+# Select top 10 features
+selector = SelectKBest(score_func=f_classif, k=10)
+selector.fit(X, y)
+
+# Create DataFrame of features and scores
+feature_scores = pd.DataFrame({
+    'Feature': X.columns,
+    'Score': selector.scores_
+}).sort_values('Score', ascending=False)
+
+print(feature_scores.head(10))
+```
+
+### RFE() - Recursive Feature Elimination
+**Purpose:** Recursively removes features and builds model on remaining attributes
+
+**Import:**
+```python
+from sklearn.feature_selection import RFE
+from sklearn.ensemble import RandomForestClassifier
+```
+
+**Basic Usage:**
+```python
+# Create base model
+model = RandomForestClassifier(n_estimators=100, random_state=42)
+
+# Create RFE
+rfe = RFE(estimator=model, n_features_to_select=5)
+rfe.fit(X, y)
+
+# Transform data
+X_selected = rfe.transform(X)
+
+# Get selected features
+selected_features = X.columns[rfe.support_]
+feature_ranking = rfe.ranking_  # 1 = selected, higher = less important
+```
+
+**Key Parameters:**
+- `estimator`: Model used to evaluate feature importance
+- `n_features_to_select`: Number of features to select
+- `step`: Number/percentage of features to remove each iteration
+
+**Example with Pipeline:**
+```python
+from sklearn.pipeline import Pipeline
+from sklearn.feature_selection import RFE
+from sklearn.ensemble import RandomForestClassifier
+
+pipeline = Pipeline([
+    ('feature_selection', RFE(
+        estimator=RandomForestClassifier(random_state=42),
+        n_features_to_select=10
+    )),
+    ('classifier', RandomForestClassifier(n_estimators=200, random_state=42))
+])
+
+pipeline.fit(X_train, y_train)
+```
+
+### Feature Importance from Tree-based Models
+**Purpose:** Use built-in feature importance from tree models
+
+**Basic Usage:**
+```python
+from sklearn.ensemble import RandomForestClassifier
+import pandas as pd
+
+# Train model
+model = RandomForestClassifier(n_estimators=100, random_state=42)
+model.fit(X_train, y_train)
+
+# Get feature importances
+importances = model.feature_importances_
+
+# Create DataFrame
+feature_importance_df = pd.DataFrame({
+    'Feature': X_train.columns,
+    'Importance': importances
+}).sort_values('Importance', ascending=False)
+
+print(feature_importance_df)
+
+# Visualize
+import matplotlib.pyplot as plt
+feature_importance_df.head(10).plot(
+    x='Feature', 
+    y='Importance', 
+    kind='barh', 
+    figsize=(10, 6)
+)
+plt.title('Top 10 Feature Importances')
+plt.show()
+```
+
+**When to Use Each Method:**
+- **SelectKBest**: Fast, good for initial exploration, statistical approach
+- **RFE**: More thorough, considers feature interactions, slower
+- **Feature Importance**: Quick, works with tree models, shows relative importance
 
 ---
 
