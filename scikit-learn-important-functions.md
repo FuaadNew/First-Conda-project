@@ -6,7 +6,8 @@ A quick reference guide for essential scikit-learn functions used in machine lea
 1. [Data Preparation](#data-preparation)
 2. [Model Training & Evaluation](#model-training--evaluation)
 3. [Preprocessing & Pipelines](#preprocessing--pipelines)
-4. [Hyperparameter Tuning & Model Persistence](#hyperparameter-tuning--model-persistence)
+4. [Clustering Algorithms](#clustering-algorithms)
+5. [Hyperparameter Tuning & Model Persistence](#hyperparameter-tuning--model-persistence)
 
 ---
 
@@ -440,6 +441,117 @@ predictions = full_pipeline.predict(X_test)
 
 # Score
 score = full_pipeline.score(X_test, y_test)
+```
+
+---
+
+## Clustering Algorithms
+
+### KMeans()
+**Purpose:** Partition data into K distinct clusters based on feature similarity
+
+**Import:**
+```python
+from sklearn.cluster import KMeans
+```
+
+**Basic Usage:**
+```python
+# Create KMeans model
+kmeans = KMeans(n_clusters=3, random_state=42)
+kmeans.fit(X)
+
+# Get cluster labels
+labels = kmeans.labels_
+
+# Get cluster centers
+centers = kmeans.cluster_centers_
+
+# Predict cluster for new data
+new_labels = kmeans.predict(X_new)
+```
+
+**Key Parameters:**
+- `n_clusters`: Number of clusters to form (default=8)
+- `random_state`: Seed for reproducibility
+- `n_init`: Number of times algorithm runs with different centroid seeds (default=10)
+- `max_iter`: Maximum iterations for convergence (default=300)
+
+**Finding Optimal K (Elbow Method):**
+```python
+inertias = []
+K_range = range(1, 11)
+
+for k in K_range:
+    kmeans = KMeans(n_clusters=k, random_state=42)
+    kmeans.fit(X)
+    inertias.append(kmeans.inertia_)
+
+# Plot to find "elbow"
+import matplotlib.pyplot as plt
+plt.plot(K_range, inertias, 'bo-')
+plt.xlabel('Number of Clusters (K)')
+plt.ylabel('Inertia')
+plt.title('Elbow Method')
+plt.show()
+```
+
+**Use Cases:**
+- Customer segmentation
+- Image compression
+- Document clustering
+- Market segmentation
+
+### DBSCAN()
+**Purpose:** Density-based clustering that finds core samples and groups them together
+
+**Import:**
+```python
+from sklearn.cluster import DBSCAN
+```
+
+**Basic Usage:**
+```python
+dbscan = DBSCAN(eps=0.5, min_samples=5)
+labels = dbscan.fit_predict(X)
+
+# -1 indicates noise/outliers
+n_clusters = len(set(labels)) - (1 if -1 in labels else 0)
+n_noise = list(labels).count(-1)
+```
+
+**Key Parameters:**
+- `eps`: Maximum distance between two samples to be considered neighbors
+- `min_samples`: Minimum samples in neighborhood for a core point
+- `metric`: Distance metric (default='euclidean')
+
+**Advantages over KMeans:**
+- Doesn't require specifying number of clusters
+- Can find arbitrarily shaped clusters
+- Identifies outliers as noise points
+- Robust to clusters of different sizes
+
+**Use Cases:**
+- Anomaly detection
+- Geographic data clustering
+- Finding clusters of arbitrary shape
+- When number of clusters is unknown
+
+**Example: Comparing KMeans and DBSCAN:**
+```python
+from sklearn.cluster import KMeans, DBSCAN
+from sklearn.datasets import make_moons
+
+# Generate non-linear separable data
+X, y = make_moons(n_samples=200, noise=0.05, random_state=42)
+
+# KMeans struggles with non-spherical clusters
+kmeans = KMeans(n_clusters=2, random_state=42)
+kmeans_labels = kmeans.fit_predict(X)
+
+# DBSCAN handles non-spherical clusters well
+dbscan = DBSCAN(eps=0.3, min_samples=5)
+dbscan_labels = dbscan.fit_predict(X)
 ```
 
 ---
