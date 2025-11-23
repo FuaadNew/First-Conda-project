@@ -2,6 +2,22 @@
 
 A comprehensive data science learning project covering NumPy, Pandas, and Matplotlib through hands-on exercises with real-world datasets including car sales and medical heart disease data.
 
+## Table of Contents
+- [Project Overview](#project-overview)
+- [Progress Tracker](#progress-tracker)
+- [What You'll Learn](#what-youll-learn)
+- [Prerequisites](#prerequisites)
+- [Contents](#contents)
+- [Environment Setup](#environment-setup)
+- [Dependencies](#dependencies)
+- [Learning Objectives](#learning-objectives)
+- [Getting Started](#getting-started)
+- [Dataset Information](#dataset-information)
+- [Tips for Learning](#tips-for-learning)
+- [Troubleshooting](#troubleshooting)
+- [Contributing](#contributing)
+- [License](#license)
+
 ## Project Overview
 
 This project contains Jupyter notebooks and datasets designed to help learn fundamental data science skills using Python's most popular libraries for data manipulation, analysis, and visualization. From basic array operations to advanced medical data analysis, this project provides a complete learning path for aspiring data scientists.
