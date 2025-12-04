@@ -62,6 +62,7 @@ This project contains Jupyter notebooks and datasets designed to help learn fund
 - Handling mixed data types with ColumnTransformer
 - Data preprocessing (imputation, encoding, feature transformation)
 - Model persistence and deployment readiness
+- Advanced confusion matrix visualizations (basic, normalized, multi-model comparison, metrics panels)
 
 ## What You'll Learn
 
@@ -219,6 +220,7 @@ This project uses Conda for environment management. The environment is defined i
 - ROC (Receiver Operating Characteristic) curves and AUC scores
 - Confusion matrix visualization with seaborn heatmaps
 - ConfusionMatrixDisplay for modern matrix visualization
+- Advanced confusion matrix techniques (normalized views, multi-model comparison grids, precision/recall panels)
 - Hyperparameter tuning and model optimization (n_estimators tuning)
 - Data preprocessing with OneHotEncoder and ColumnTransformer
 - Handling categorical variables in machine learning
